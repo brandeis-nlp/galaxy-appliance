@@ -2,7 +2,7 @@
   <!-- go through and a header to each item in a collection - should use implicit
        mapping the non-collectiony add header tool to do this in a real analysis.
   -->
-  <command interpreter="lsd">create_collection.lsd $input $start $end</command>
+  <command interpreter="lsd">create_collection.lsd $input</command>
 
   <!--
     #for $key in $list_output.keys()#
@@ -13,12 +13,121 @@
   </command>
   -->
   <inputs>
-    <param name="input" type="data" format="txt" label="Index List" help="List of MASC document ID values." />
-      <param name="start" type="integer" value="0" min="0"/>
-      <param name="end" type="integer" value="392" max="392"/>
+      <param name="input" type="select">
+      <option value="gri.ark+_13960_t1mg88j9b">gri.ark+_13960_t1mg88j9b</option>
+      <option value="gri.ark+_13960_t1mg8hh1x">gri.ark+_13960_t1mg8hh1x</option>
+      <option value="gri.ark+_13960_t22b9p567">gri.ark+_13960_t22b9p567</option>
+      <option value="gri.ark+_13960_t4dn51r67">gri.ark+_13960_t4dn51r67</option>
+      <option value="gri.ark+_13960_t5p84xt8f">gri.ark+_13960_t5p84xt8f</option>
+      <option value="gri.ark+_13960_t7fr2ck9m">gri.ark+_13960_t7fr2ck9m</option>
+      <option value="gri.ark+_13960_t8nc6mj2j">gri.ark+_13960_t8nc6mj2j</option>
+      <option value="gri.ark+_13960_t8x92pw05">gri.ark+_13960_t8x92pw05</option>
+      <option value="gri.ark+_13960_t9p27s92b">gri.ark+_13960_t9p27s92b</option>
+      <option value="gri.ark+_13960_t9z041f35">gri.ark+_13960_t9z041f35</option>
+      <option value="loc.ark+_13960_t08w40m19">loc.ark+_13960_t08w40m19</option>
+      <option value="loc.ark+_13960_t3jw94c8d">loc.ark+_13960_t3jw94c8d</option>
+      <option value="loc.ark+_13960_t6g16fx8r">loc.ark+_13960_t6g16fx8r</option>
+      <option value="loc.ark+_13960_t8ff3w38m">loc.ark+_13960_t8ff3w38m</option>
+      <option value="mdp.39015003797720">mdp.39015003797720</option>
+      <option value="mdp.39015011572545">mdp.39015011572545</option>
+      <option value="mdp.39015013470169">mdp.39015013470169</option>
+      <option value="mdp.39015013470177">mdp.39015013470177</option>
+      <option value="mdp.39015016773387">mdp.39015016773387</option>
+      <option value="mdp.39015059701311">mdp.39015059701311</option>
+      <option value="mdp.39015065281308">mdp.39015065281308</option>
+      <option value="mdp.39015067947740">mdp.39015067947740</option>
+      <option value="mdp.39015068524480">mdp.39015068524480</option>
+      <option value="mdp.39015068524498">mdp.39015068524498</option>
+      <option value="mdp.39015068524761">mdp.39015068524761</option>
+      <option value="mdp.39015068546863">mdp.39015068546863</option>
+      <option value="mdp.39015068546871">mdp.39015068546871</option>
+      <option value="mdp.39015073240346">mdp.39015073240346</option>
+      <option value="mdp.39015080265864">mdp.39015080265864</option>
+      <option value="mdp.39015080308300">mdp.39015080308300</option>
+      <option value="mdp.39015080308326">mdp.39015080308326</option>
+      <option value="mdp.39015080308466">mdp.39015080308466</option>
+      <option value="mdp.39015080308490">mdp.39015080308490</option>
+      <option value="miua.0048030,1838,001">miua.0048030,1838,001</option>
+      <option value="miua.0048030,1839,001">miua.0048030,1839,001</option>
+      <option value="miua.0048030,1840,001">miua.0048030,1840,001</option>
+      <option value="miun.aaa5708,0001,001">miun.aaa5708,0001,001</option>
+      <option value="miun.aac6132,0001,001">miun.aac6132,0001,001</option>
+      <option value="miun.aae7719,0010,012">miun.aae7719,0010,012</option>
+      <option value="miun.aae7719,0011,003">miun.aae7719,0011,003</option>
+      <option value="miun.aae8445,1974,001">miun.aae8445,1974,001</option>
+      <option value="nc01.ark+_13960_t2j68kf84">nc01.ark+_13960_t2j68kf84</option>
+      <option value="nc01.ark+_13960_t4zg7p54h">nc01.ark+_13960_t4zg7p54h</option>
+      <option value="ncs1.ark+_13960_t06w9qs3g">ncs1.ark+_13960_t06w9qs3g</option>
+      <option value="ncs1.ark+_13960_t3805g779">ncs1.ark+_13960_t3805g779</option>
+      <option value="ncs1.ark+_13960_t3qv3ws0z">ncs1.ark+_13960_t3qv3ws0z</option>
+      <option value="ncs1.ark+_13960_t4rj4tj39">ncs1.ark+_13960_t4rj4tj39</option>
+      <option value="nnc2.ark+_13960_t4qj7j729">nnc2.ark+_13960_t4qj7j729</option>
+      <option value="nnc2.ark+_13960_t8qc0pv8n">nnc2.ark+_13960_t8qc0pv8n</option>
+      <option value="psia.ark+_13960_t0ks80527">psia.ark+_13960_t0ks80527</option>
+      <option value="psia.ark+_13960_t0ns21g9d">psia.ark+_13960_t0ns21g9d</option>
+      <option value="psia.ark+_13960_t15m7gw0x">psia.ark+_13960_t15m7gw0x</option>
+      <option value="psia.ark+_13960_t2k65m75k">psia.ark+_13960_t2k65m75k</option>
+      <option value="psia.ark+_13960_t2t44zs12">psia.ark+_13960_t2t44zs12</option>
+      <option value="psia.ark+_13960_t36124838">psia.ark+_13960_t36124838</option>
+      <option value="psia.ark+_13960_t3nw0r29t">psia.ark+_13960_t3nw0r29t</option>
+      <option value="psia.ark+_13960_t3xs7067n">psia.ark+_13960_t3xs7067n</option>
+      <option value="psia.ark+_13960_t48p7k82h">psia.ark+_13960_t48p7k82h</option>
+      <option value="psia.ark+_13960_t51g20w4n">psia.ark+_13960_t51g20w4n</option>
+      <option value="psia.ark+_13960_t5q82g348">psia.ark+_13960_t5q82g348</option>
+      <option value="psia.ark+_13960_t7dr3x372">psia.ark+_13960_t7dr3x372</option>
+      <option value="psia.ark+_13960_t8jd64s67">psia.ark+_13960_t8jd64s67</option>
+      <option value="psia.ark+_13960_t9n31024d">psia.ark+_13960_t9n31024d</option>
+      <option value="uc2.ark+_13960_fk3hx15z7z">uc2.ark+_13960_fk3hx15z7z</option>
+      <option value="uc2.ark+_13960_t0ft8fx8g">uc2.ark+_13960_t0ft8fx8g</option>
+      <option value="uc2.ark+_13960_t11n7z62t">uc2.ark+_13960_t11n7z62t</option>
+      <option value="uc2.ark+_13960_t19k4n33w">uc2.ark+_13960_t19k4n33w</option>
+      <option value="uc2.ark+_13960_t1td9nf36">uc2.ark+_13960_t1td9nf36</option>
+      <option value="uc2.ark+_13960_t27942b6b">uc2.ark+_13960_t27942b6b</option>
+      <option value="uc2.ark+_13960_t2g73fm34">uc2.ark+_13960_t2g73fm34</option>
+      <option value="uc2.ark+_13960_t2p55mb41">uc2.ark+_13960_t2p55mb41</option>
+      <option value="uc2.ark+_13960_t2r49gc4m">uc2.ark+_13960_t2r49gc4m</option>
+      <option value="uc2.ark+_13960_t3319s96r">uc2.ark+_13960_t3319s96r</option>
+      <option value="uc2.ark+_13960_t3513z38f">uc2.ark+_13960_t3513z38f</option>
+      <option value="uc2.ark+_13960_t3mw28k58">uc2.ark+_13960_t3mw28k58</option>
+      <option value="uc2.ark+_13960_t3pv6kb45">uc2.ark+_13960_t3pv6kb45</option>
+      <option value="uc2.ark+_13960_t3st7f20z">uc2.ark+_13960_t3st7f20z</option>
+      <option value="uc2.ark+_13960_t40r9nt0h">uc2.ark+_13960_t40r9nt0h</option>
+      <option value="uc2.ark+_13960_t4dn41656">uc2.ark+_13960_t4dn41656</option>
+      <option value="uc2.ark+_13960_t4jm26h1h">uc2.ark+_13960_t4jm26h1h</option>
+      <option value="uc2.ark+_13960_t4mk68365">uc2.ark+_13960_t4mk68365</option>
+      <option value="uc2.ark+_13960_t4vh5mr8w">uc2.ark+_13960_t4vh5mr8w</option>
+      <option value="uc2.ark+_13960_t5w66d97z">uc2.ark+_13960_t5w66d97z</option>
+      <option value="uc2.ark+_13960_t5x63sd6j">uc2.ark+_13960_t5x63sd6j</option>
+      <option value="uc2.ark+_13960_t6vx08540">uc2.ark+_13960_t6vx08540</option>
+      <option value="uc2.ark+_13960_t72v2s679">uc2.ark+_13960_t72v2s679</option>
+      <option value="uc2.ark+_13960_t83j3ks5b">uc2.ark+_13960_t83j3ks5b</option>
+      <option value="uc2.ark+_13960_t8ff3zh99">uc2.ark+_13960_t8ff3zh99</option>
+      <option value="uc2.ark+_13960_t8pc2tr0j">uc2.ark+_13960_t8pc2tr0j</option>
+      <option value="uc2.ark+_13960_t8sb40783">uc2.ark+_13960_t8sb40783</option>
+      <option value="uc2.ark+_13960_t8v981n19">uc2.ark+_13960_t8v981n19</option>
+      <option value="uc2.ark+_13960_t8w951b6v">uc2.ark+_13960_t8w951b6v</option>
+      <option value="uc2.ark+_13960_t92808z9v">uc2.ark+_13960_t92808z9v</option>
+      <option value="uc2.ark+_13960_t9j38q812">uc2.ark+_13960_t9j38q812</option>
+      <option value="uiuo.ark+_13960_t00001t5c">uiuo.ark+_13960_t00001t5c</option>
+      <option value="uiuo.ark+_13960_t13n4rm83">uiuo.ark+_13960_t13n4rm83</option>
+      <option value="uiuo.ark+_13960_t1hh6f12z">uiuo.ark+_13960_t1hh6f12z</option>
+      <option value="uiuo.ark+_13960_t2k64cq1n">uiuo.ark+_13960_t2k64cq1n</option>
+      <option value="uiuo.ark+_13960_t45q6172g">uiuo.ark+_13960_t45q6172g</option>
+      <option value="uiuo.ark+_13960_t7jq0zz40">uiuo.ark+_13960_t7jq0zz40</option>
+      <option value="uiuo.ark+_13960_t9668bz5b">uiuo.ark+_13960_t9668bz5b</option>
+      <option value="uiuo.ark+_13960_t9c565t8c">uiuo.ark+_13960_t9c565t8c</option>
+      <option value="uiuo.ark+_13960_t9r23hr1g">uiuo.ark+_13960_t9r23hr1g</option>
+      <option value="uiuo.ark+_13960_t9v11xx6x">uiuo.ark+_13960_t9v11xx6x</option>
+      <option value="yale.39002002224252">yale.39002002224252</option>
+      <option value="yale.39002005591848">yale.39002005591848</option>
+      <option value="yale.39002005614558">yale.39002005614558</option>
+      <option value="yale.39002015008130">yale.39002015008130</option>
+      <option value="yale.39002018496662">yale.39002018496662</option>
+      <option value="yale.39002030209101">yale.39002030209101</option>
+  </param>
   </inputs>
   <outputs>
-    <collection name="list_output" type="list" label="Output List" format="lif">
+    <collection name="list_output" type="list" label="Local Sample List" format="txt">
         <discover_datasets pattern="__designation_and_ext__" directory="outputs" visible="false"/>
     </collection>
   </outputs>

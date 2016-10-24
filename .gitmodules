@@ -1,0 +1,3 @@
+[submodule "tool-conf-editor"]
+	path = tool-conf-editor
+	url = https://github.com/oanc/tool-conf-editor.git

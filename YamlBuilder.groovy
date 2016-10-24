@@ -35,6 +35,8 @@ println """    galaxy:
         image: $appliance/galaxy-keith
         ports:
             - "80:80"
+        volumes:
+            - "./htrc_samples_norm:/samples"
         depends_on:"""
 args.each {
 	println "            - $it"

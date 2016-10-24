@@ -1,21 +1,31 @@
-File input = new File(args[0])
-int start = args[1] as int
-int end = args[2] as int
+String input = args[0]
 
 dir = new File("outputs")
-
 if (!dir.exists()) {
     if (!dir.mkdirs()) {
-        throw new IOException("Unable to create directory ${dir.path}")
+        throw new IOException("Unable to create output directory")
     }
 }
 
-DataSourceClient datasource = new DataSourceClient("http://manager:8080/service_manager/invoker/lapps:masc.text_2.2.0", "operator", "operator")
-
-String[] lines = input.readLines()
-lines[start..end].each { line ->
-    String id = line.trim()
-    File file = new File(dir, "${id}.txt")
-    file.text = datasource.get(id)
+File corpus = new File("/samples/${input}")
+if (!corpus.exists()) {
+    throw new IOException("Unable to locate the corpus")
 }
 
+count = 0
+fid = 1
+while (count < 20) {
+    String filename = String.format("%08d.txt", fid)
+    File infile = new File(corpus, filename)
+
+    if (!infile.exists()) {
+        count = 20
+        break
+    }
+    if (infile.length() > 100) {
+        File outfile = new File(dir, filename)
+        outfile.text = infile.text
+        count++
+    }
+    fid++
+}
