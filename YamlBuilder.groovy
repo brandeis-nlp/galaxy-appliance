@@ -20,12 +20,21 @@ String appliance = args[0]
 args = args[1..-1]
 
 int port = 8000
+/***
+println "docker network create -d overlay --subnet 192.168.0.0/16 appliance-network"
+args.each {
+	println "docker service create --name $it -p ${++port}:8080/tcp --network appliance-network lappsgrid/$it"
+}
+println "docker service create --name galaxy -p 80:80/tcp --network appliance-network lappsgrid/galaxy-keith"
+
+return
+*/
 
 println "version: '2'"
 println "services:"
 args.each {
 	println "    ${it}:"
-//	println "        build: $it"
+	println "        build: ./$it"
 	println "        image: $appliance/$it"
 	println "        ports:"
 	println "            - ${++port}:8080"
@@ -33,6 +42,7 @@ args.each {
 
 println """    galaxy:
         image: $appliance/galaxy-keith
+        build: ./build
         ports:
             - "80:80"
         volumes:

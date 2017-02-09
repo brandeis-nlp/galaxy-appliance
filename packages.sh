@@ -4,10 +4,11 @@ set -eu
 # Since the .tgz packages are not kept in source control this script can be used
 # to download any required packages.
 
-SERVER=http://www.anc.org/downloads/docker
+# The script is expected to be called from the Makefile which will have set
+# the PACKAGE_LIST environment variable.
 
-#PACKAGE_LIST="lsd vassar-gate vassar-models MASC-3.0.0 GateConverter_2.0.0 GateServices_2.0.0 MascDataSource_2.2.0 StanfordServices_2.1.0 LingpipeServices"
-#PACKAGE_LIST="LingpipeServices"
+#SERVER=http://www.anc.org/downloads/docker
+SERVER=http://downloads.lappsgrid.org
 
 if [ ! -d packages ] ; then
 	mkdir packages
