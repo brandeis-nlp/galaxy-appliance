@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y bash emacs24-nox
 ADD ./packages/lsd-latest.tgz /usr/bin
 RUN chmod a+x /usr/bin/lsd
 
+# this is not the best way, but for now, simple galaxy wrapper should live in the galaxy container, so does dataset
+ADD ./packages/samples.tgz /var/corpora/htrc_samples
+
 #USER galaxy
 ADD ./packages/brat.tgz /galaxy-central/config/plugins/visualizations
 
