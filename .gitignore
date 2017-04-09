@@ -2,5 +2,5 @@ build/
 ./**/packages/
 **/*.tgz
 docker-compose.yml
-htrc*/
+htrc_sample*/
 *.log
