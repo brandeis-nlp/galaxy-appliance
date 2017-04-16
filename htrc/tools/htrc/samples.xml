@@ -1,4 +1,4 @@
-<tool id="test.collection" name="Test Collection Output" version="0.1.0">
+<tool id="htrc.test" name="HTRC Samples Test" version="0.1.0">
   <!-- go through and a header to each item in a collection - should use implicit
        mapping the non-collectiony add header tool to do this in a real analysis.
   -->

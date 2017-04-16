@@ -6,7 +6,6 @@
 		<tool file="common/create_collection.xml"/>
     </section>
     <section id="htrc" name="HTRC">
-		<tool file="htrc/samples.xml"/>
     </section>
     <section id="masc" name="MASC">
     </section>
