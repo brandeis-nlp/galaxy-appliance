@@ -4,3 +4,5 @@ build/
 docker-compose.yml
 htrc_sample*/
 *.log
+**/.idea
+*.iml
