@@ -259,10 +259,12 @@ def download_volumes(volume_ids, output_dir, username=None, password=None):
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
 
-    data_dir = "/var/corpus/htrc-samples"
+    data_dir = "/var/corpora/htrc-samples"
+    print(volume_ids)
     for volume_id in volume_ids:
-        shutil.copytree(os.path.join(data_dir, volume_id),
-                        os.path.join(output_dir, volume_id))
+        if len(volume_id) > 1:
+            shutil.copytree(os.path.join(data_dir, volume_id),
+                            os.path.join(output_dir, volume_id))
 
 
 """
@@ -298,5 +300,4 @@ def download(args):
     with open(args.file) as IDfile:
         volumeIDs = [line.strip() for line in IDfile]
 
-    print(args.output)
     return download_volumes(volumeIDs, args.output, args.username, args.password)

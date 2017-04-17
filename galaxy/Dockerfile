@@ -10,13 +10,20 @@ ENV GALAXY_CONFIG_BRAND Develop
 
 ENV TERM=xterm
 
-RUN apt-get update && apt-get install -y bash emacs24-nox 
+RUN apt-get update && apt-get install -y bash 
+
+# this will be used to install pip packages in the venv that galaxy use to run python tools 
+# DON'T forget to install any package with --user flag
+ENV PYTHONUSERBASE=/galaxy_venv/
+# python lxml package depends on this 
+RUN apt-get install -y libxslt-dev
+# RUN pip install --user htrc
 
 ADD ./packages/lsd-latest.tgz /usr/bin
 RUN chmod a+x /usr/bin/lsd
 
 # this is not the best way, but for now, simple galaxy wrapper should live in the galaxy container, so does dataset
-ADD ./packages/samples.tgz /var/corpora/htrc_samples
+ADD ./packages/samples.tgz /var/corpora/htrc-samples
 
 #USER galaxy
 ADD ./packages/brat.tgz /galaxy-central/config/plugins/visualizations

@@ -6,3 +6,4 @@ htrc_sample*/
 *.log
 **/.idea
 *.iml
+*.pyc

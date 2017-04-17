@@ -1,0 +1,17 @@
+<tool id="htrc.wrapper" name="python-HTRC wrapper" version="0.1.0">
+    <description>
+        wrapepr around HTRC python SDK 
+    </description>
+    <command interpreter="python">wrapper.py $input</command>
+
+    <inputs>
+        <param name="input" type="text" area="True" size="10x25" label="Enter volume ID's one at a line."/>
+    </inputs>
+    <outputs>
+        <collection name="list_output" type="list" label="HTRC dataset" format="txt">
+            <discover_datasets pattern="__designation_and_ext__" directory="outputs"/>
+        </collection>
+    </outputs>
+    <tests>
+    </tests>
+</tool>
