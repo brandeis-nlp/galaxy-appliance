@@ -18,6 +18,8 @@ EXAMPLE
 
 String appliance = args[0]
 args = args[1..-1]
+// htrc tools and data set should live inside the main galaxy container
+args.removeElement("htrc")
 
 int port = 8000
 /***
@@ -36,18 +38,19 @@ args.each {
 	println "    ${it}:"
 	println "        build: ./$it"
 	println "        image: $appliance/$it"
+	println "        container_name: $it"
 	println "        ports:"
 	println "            - ${++port}:8080"
 }
 
 println """    galaxy:
-        image: $appliance/galaxy-keith
+        image: $appliance/galaxy-htrc
+        container_name: galaxy
         build: ./build
         ports:
             - "80:80"
-        volumes:
-            - "./htrc_samples_norm:/samples"
         depends_on:"""
+
 args.each {
 	println "            - $it"
 }

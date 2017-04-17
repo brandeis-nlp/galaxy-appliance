@@ -1,4 +1,4 @@
-NAME=galaxy-keith
+NAME=galaxy-htrc
 
 include ../Makefile.master
 

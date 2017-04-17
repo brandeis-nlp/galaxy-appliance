@@ -27,7 +27,7 @@ while [ -n "$1" ] ; do
 		OPTS="-m"
 	fi
 	tce $OPTS -c build/tool_conf.xml -o build/tool_conf.xml $1/tool_conf.groovy
-	if [ "$make_docker" = "true" ] ; then
+	if [ "$make_docker" = "true" -a "$1" != "htrc" ] ; then
 		cd $1 
 		make
 		cd -

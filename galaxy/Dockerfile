@@ -3,7 +3,7 @@
 
 FROM bgruening/galaxy-stable:16.04
 
-MAINTAINER Keith Suderman, suderman@cs.vassar.edu
+MAINTAINER Keigh Rim, krim@brandeis.edu
 
 ENV BARE True
 ENV GALAXY_CONFIG_BRAND Develop
