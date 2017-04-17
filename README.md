@@ -29,10 +29,10 @@ A **LAPPS/Galaxy Docker Appliance**, or simply an *appliance*, is a network of D
 ## Usage
 
 ```bash
-$> ./make-appliance <repository name> image [image ...]
+$> ./make-appliance identifier module [module ...]
 ```
 
-where `<repository name>` is the name of a repository on `hub.docker.com` and `image [image ...] ` is the name of the Docker images to include in the appliance.
+where the `identifier` is just a prefix for names of Docker containers, and a `module` is the name of the Docker containers to include in the appliance.
 
 **EXAMPLE**
 
