@@ -64,7 +64,7 @@ function build_appliance {
         # this will minimize (remove empty sections) when building the final tool_conf.xml
         if [ -z "$2" ] ; then OPTS="-m" ; fi
         # include tools in the module in the tool_conf.xml
-        tce $OPTS -c build/tool_conf.xml -o build/tool_conf.xml $1/tool_conf.groovy
+        java -jar ./ToolConfEditor-1.0.1.jar $OPTS -c build/tool_conf.xml -o build/tool_conf.xml $1/tool_conf.groovy
 
         # now go into the module dir and build docker, if specified in option
         # NOTE that htrc module does not have its own docker container, but lives ni galaxy docker container
