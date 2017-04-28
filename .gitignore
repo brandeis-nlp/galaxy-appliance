@@ -7,3 +7,5 @@ htrc_sample*/
 **/.idea
 *.iml
 *.pyc
+.DS_Store
+**/packages

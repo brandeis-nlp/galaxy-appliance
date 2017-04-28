@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y bash
 ENV PYTHONUSERBASE=/galaxy_venv/
 # python lxml package depends on this 
 RUN apt-get install -y libxslt-dev
-# RUN pip install --user htrc
+RUN pip install --user htrc
 
 ADD ./packages/lsd-latest.tgz /usr/bin
 RUN chmod a+x /usr/bin/lsd

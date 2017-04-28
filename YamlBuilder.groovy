@@ -48,7 +48,7 @@ println """    galaxy:
         container_name: galaxy
         build: ./build
         ports:
-            - "80:80"
+            - 80:80
         depends_on:"""
 
 args.each {
