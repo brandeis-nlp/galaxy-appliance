@@ -82,7 +82,8 @@ function build_appliance {
         shift
     done
     cd build 
-    build_docker_image "galaxy-htrc"
+    download_tool "galaxy-htrc"
+    sudo docker build -t "$APPLIANCE/galaxy-htrc" .
 }
 
 function download_tool {
