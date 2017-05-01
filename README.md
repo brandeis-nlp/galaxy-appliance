@@ -28,17 +28,37 @@ A **LAPPS/Galaxy Docker Appliance**, or simply an *appliance*, is a network of D
 
 ## Usage
 
+First run the `make-appliace` script:
+
 ```bash
 $> ./make-appliance module [module ...]
-$> docker-compose up
 ```
 
-where `module` is the name of a Docker container to include in the appliance. An example for running the `make-appliance` script is
+Here, `module` is the name of a Docker container to include in the appliance. Some examples for running the `make-appliance` script are
 
 ```bash
+$> ./make-appliance -a -b
 $> ./make-appliance gate masc oaqa
-
 ```
+
+With the `-a` option you do not need to enumerate the modules included, the script will take all subdirectories in the repository. Alternatively, you can list all modules to be included, but note that `galaxy` does not need be included since it is always assumed. The `-b` option rebuilds Docker images for each module.
+
+After this you should be able to run
+
+```bash
+$> docker ps
+```
+
+and see all the containers that are available.
+
+You can then start the containers in the background and leave them running with `docker-compose`:
+
+```bash
+$> docker-compose up -d
+```
+
+You may have to use `sudo`, but when this runs succesfully then you should have a LAPPS Grid instance running on localhost.
+
 
 # Creating Appliances
 
