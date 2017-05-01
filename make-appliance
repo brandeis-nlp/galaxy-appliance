@@ -67,24 +67,26 @@ function build_appliance {
         java -jar ./ToolConfEditor-1.0.1.jar $OPTS -c build/tool_conf.xml -o build/tool_conf.xml $1/tool_conf.groovy
 
         # now go into the module dir and build docker, if specified in option
-        # NOTE that htrc module does not have its own docker container, but lives ni galaxy docker container
-        # so we're skipping 'htrc' module
-        if [ "$make_docker" = "true" -a "$1" != "htrc" ] ; then
+        if [ "$make_docker" = "true" ] ; then
             cd $1 
-            build_docker_image $1
+            # first download war files (in tgz archive) from the server
+            download_tool $1
+            # then build docker image - this will require tool tgz files in the place 
+            # NOTE that htrc module does not have its own docker container, but lives ni galaxy docker container
+            # so we're skipping 'htrc' module
+            if [ "$1" != "htrc" ] ; then 
+                sudo docker build -t $APPLIANCE/$1 .
+            fi
             cd ..
         fi
         shift
     done
     cd build 
     build_docker_image "galaxy-htrc"
-
 }
 
-function build_docker_image {
+function download_tool {
     # given module name as $1,
-
-    # first download war files (in tgz archive) from the server
     echo "Downloading tool files for $1, this will remove all previously downdload files"
     if [ ! -d packages ] ; then mkdir packages ; fi
     cd packages 
@@ -93,9 +95,6 @@ function build_docker_image {
         wget $SERVER/$package.tgz
     done
     cd ..
-
-    # then build docker image - this will require tool tgz files in the place 
-    sudo docker build -t $APPLIANCE/$1 .
 }
 
 
