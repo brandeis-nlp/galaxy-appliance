@@ -49,7 +49,7 @@ After this you should be able to run
 $> docker images
 ```
 
-and see all the containers that are available.
+and see all the images that are available.
 
 You can then start the containers in the background and leave them running with `docker-compose`:
 
