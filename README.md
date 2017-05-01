@@ -18,9 +18,9 @@ A **LAPPS/Galaxy Docker Appliance**, or simply an *appliance*, is a network of D
 
 ## Pre-requisites
 
-1. The `make-appliance` script expects a program named `tce` (Tool Config Editor) to be available on the system `$PATH`.  A pre-built binary distribution of the Tool Conf Editor is available [here](http://www.anc.org/downloads/ToolConfEditor-latest.tgz).  Copy the `tce` script and jar file to a directory on the system `$PATH`, or copy them to a new directory and add that directory to your `$PATH`.
-
- The source code for the Tool Config Editor is available from [GitHub](https://github.com/oanc/tool-conf-editor).
+1. [Docker](https://www.docker.com/) must be installed and running. Make sure that [docker-compose](https://docs.docker.com/compose/) is part of the Docker installation, which would be the case if you are a Windows or Mac user and you installed Docker.
+ 
+1. The `make-appliance` script expects a program named `tce` (Tool Config Editor) to be available on the system `$PATH`.  A pre-built binary distribution of the Tool Conf Editor is available [here](http://www.anc.org/downloads/ToolConfEditor-latest.tgz).  Copy the `tce` script and jar file to a directory on the system `$PATH`, or copy them to a new directory and add that directory to your `$PATH`. The source code for the Tool Config Editor is available from [GitHub](https://github.com/oanc/tool-conf-editor).
 
 1. [Groovy](https://groovy-lang.org) (2.4.x or later) is required to run the `YamlBuilder.groovy` script that is used to generate the *docker-compose.yml* file.
 
@@ -29,16 +29,15 @@ A **LAPPS/Galaxy Docker Appliance**, or simply an *appliance*, is a network of D
 ## Usage
 
 ```bash
-$> ./make-appliance identifier module [module ...]
+$> ./make-appliance module [module ...]
+$> docker-compose up
 ```
 
-where the `identifier` is just a prefix for names of Docker containers, and a `module` is the name of the Docker containers to include in the appliance.
-
-**EXAMPLE**
+where `module` is the name of a Docker container to include in the appliance. An example for running the `make-appliance` script is
 
 ```bash
-$> ./make-appliance lappsgrid gate masc oaqa
-$> docker-compose up
+$> ./make-appliance gate masc oaqa
+
 ```
 
 # Creating Appliances
