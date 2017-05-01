@@ -46,7 +46,7 @@ With the `-a` option you do not need to enumerate the modules included, the scri
 After this you should be able to run
 
 ```bash
-$> docker ps
+$> docker images
 ```
 
 and see all the containers that are available.
