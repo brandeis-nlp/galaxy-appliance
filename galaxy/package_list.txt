@@ -1,3 +1,2 @@
 lsd-latest
 brat
-samples
