@@ -14,4 +14,8 @@
     </outputs>
     <tests>
     </tests>
+    <help> <![CDATA[
+        TODO
+        ]]>
+    </help>
 </tool>
