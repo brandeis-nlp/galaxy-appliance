@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Script to build a LAPPS appliance.
 #
+# Script to build a LAPPS appliance.
 # Synopsis
 #
 #   $ ./make-appliance [-a] [-b] [-o]
@@ -142,7 +142,7 @@ function build_appliance {
     # packages because the galaxy packages need to be in the build.
 
     generate_docker_configuration
-    download_packages "galaxy $@" 
+    download_packages galaxy $@
     initialize_build
     copy_tools $@
     configure_tools $@
