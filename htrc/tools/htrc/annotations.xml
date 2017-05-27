@@ -16,7 +16,7 @@
   </command>
   -->
   <inputs>
-      <param name="input" type="select" multiple="true" display="checkboxes">
+      <param name="input" type="select" multiple="true" display="checkboxes" label="Select Samples">
       <option value="loc.ark+=13960=t8ff3w38m">loc.ark+=13960=t8ff3w38m</option>
       <option value="mdp.39015065281308">mdp.39015065281308</option>
       <option value="nc01.ark+=13960=t2j68kf84">nc01.ark+=13960=t2j68kf84</option>
