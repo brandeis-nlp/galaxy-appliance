@@ -1,0 +1,40 @@
+<tool id="htrc.annotation" name="HTRC Annotated Samples" version="1.0.0">
+  <!-- go through and a header to each item in a collection - should use implicit
+       mapping the non-collectiony add header tool to do this in a real analysis.
+  -->
+    <description>
+        locally stored NE annotation samples
+    </description>
+  <command interpreter="python">annotations.py "$input"</command>
+
+  <!--
+    #for $key in $list_output.keys()#
+    cat "$header" > "$list_output[$key]";
+    cat "$input_collect[$key]" >> "$list_output[$key]";
+    #end for#
+    echo 'ensure not empty';
+  </command>
+  -->
+  <inputs>
+      <param name="input" type="select" multiple="true" display="checkboxes">
+      <option value="loc.ark+=13960=t8ff3w38m">loc.ark+=13960=t8ff3w38m</option>
+      <option value="mdp.39015065281308">mdp.39015065281308</option>
+      <option value="nc01.ark+=13960=t2j68kf84">nc01.ark+=13960=t2j68kf84</option>
+      <option value="uc2.ark+=13960=t3mw28k58">uc2.ark+=13960=t3mw28k58</option>
+      <option value="uc2.ark+=13960=t3st7f20z">uc2.ark+=13960=t3st7f20z</option>
+      <option value="uc2.ark+=13960=t72v2s679">uc2.ark+=13960=t72v2s679</option>
+      <option value="uc2.ark+=13960=t8pc2tr0j">uc2.ark+=13960=t8pc2tr0j</option>
+      <option value="uc2.ark+=13960=t92808z9v">uc2.ark+=13960=t92808z9v</option>
+      <option value="uiuo.ark+=13960=t45q6172g">uiuo.ark+=13960=t45q6172g</option>
+      <option value="yale.39002002224252">yale.39002002224252</option>
+      <option value="yale.39002005614558">yale.39002005614558</option>
+  </param>
+  </inputs>
+  <outputs>
+    <collection name="list_output" type="list" label="Annotated Samples" format="lif">
+        <discover_datasets pattern="__designation_and_ext__" directory="outputs" visible="false"/>
+    </collection>
+  </outputs>
+  <tests>
+  </tests>
+</tool>
