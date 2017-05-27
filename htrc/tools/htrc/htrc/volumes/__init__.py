@@ -20,7 +20,7 @@ from configparser import RawConfigParser as ConfigParser
 import http.client
 from io import BytesIO  # used to stream http response into zipfile.
 import json
-import os.path
+import os
 import progressbar
 import socket
 import ssl
@@ -265,23 +265,7 @@ def download_volumes(volume_ids, output_dir, username=None, password=None):
         if len(volume_id) > 1:
             shutil.copytree(os.path.join(data_dir, volume_id),
                             os.path.join(output_dir, volume_id))
-
-
 """
-    # get credentials if not specified
-    if not username and not password:
-        path = os.path.expanduser('~')
-        path = os.path.join(path, '.htrc')
-        try:
-            username, password = credentials_from_config(path)
-        except EnvironmentError:
-            username, password = credential_prompt(path)
-    
-    # Retrieve token and download volumes
-    token = get_oauth2_token(username, password)
-    if token is not None:
-        logging.info("obtained token: %s\n" % token)
-
         try:
             data = get_volumes(token, volume_ids, False)
 
@@ -294,6 +278,47 @@ def download_volumes(volume_ids, output_dir, username=None, password=None):
     else:
         raise RuntimeError("Failed to obtain oauth token.")
 """
+
+
+def get_token(username=None, password=None):
+    # get credentials if not specified
+    if not username and not password:
+        path = os.path.expanduser('~')
+        path = os.path.join(path, '.htrc')
+        try:
+            username, password = credentials_from_config(path)
+        except EnvironmentError:
+            username, password = credential_prompt(path)
+
+    # Retrieve token and download volumes
+    token = get_oauth2_token(username, password)
+    if token is not None:
+        logging.info("obtained token: %s\n" % token)
+    else:
+        return token
+
+def pagenum_to_filename(page):
+    if not isinstance(page, int):
+        page = int(page)
+    return "{0:08d}".format(page) + ".txt"
+
+def download_pages(page_ids, output_dir, username=None, password=None):
+    # create output_dir folder, if nonexistant
+    if not os.path.isdir(output_dir):
+        print("output dir not found, creating one")
+        os.makedirs(output_dir)
+
+    data_dir = "/var/corpora/htrc-samples"
+    for id in page_ids:
+        if len(id) > 1:
+            volume_id, pages = id.split("[")
+            pages = pages[0:-1].split(",")
+            if not os.path.isdir(os.path.join(output_dir, volume_id)):
+                os.mkdir(os.path.join(output_dir, volume_id))
+            for page in pages:
+                page_file = pagenum_to_filename(page)
+                shutil.copy(os.path.join(data_dir, volume_id, page_file),
+                            os.path.join(output_dir, volume_id, page_file))
 
 def download(args):
     # extract files
