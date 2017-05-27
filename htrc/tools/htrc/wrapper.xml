@@ -2,10 +2,10 @@
     <description>
         wrapepr around HTRC python SDK 
     </description>
-    <command interpreter="python">wrapper.py $input</command>
+    <command interpreter="python">wrapper.py "$input"</command>
 
     <inputs>
-        <param name="input" type="text" area="True" size="10x25" label="Enter volume ID's one at a line."/>
+        <param name="input" type="text" area="True" size="10x25" label="Enter a Query"/>
     </inputs>
     <outputs>
         <collection name="list_output" type="list" label="HTRC dataset" format="txt">
@@ -14,4 +14,23 @@
     </outputs>
     <tests>
     </tests>
+    <help> <![CDATA[
+
+To get whole volumes: 
+---------------------
+
+* * input volume ids, one at a line
+
+To get specific pages: 
+----------------------
+
+* * enter volume ids and pages (or page ranges), one volume at a line.
+* * you can use individual page numbers (1,2,3) or page ranges (1-3)
+* * to query for multiple pages or ranges, use comma e.g. 1,3-5,11
+* * use slash ('/') to glue the volume id and pages. e.g. vol_1/1,3-5,11
+
+.. class:: warningmark
+**You cannot use a mixed form - mixing query for whole volumes and partial volumes will not work**
+]]>
+    </help>
 </tool>

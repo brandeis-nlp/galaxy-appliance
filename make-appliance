@@ -1,16 +1,94 @@
 #!/usr/bin/env bash
+
+#
+# Script to build a LAPPS appliance.
+# Synopsis
+#
+#   $ ./make-appliance [-a] [-b] [-o]
+#
+# Typically you would use just the -a and -b options.
+#
+# The building blocks that this script works on are the subdirectories in this
+# directory (galaxy, htrc, masc, oaqa etcetera). For all those (except one) of
+# those directories a Docker image will be created. The galaxy is a special
+# module which is the one connecting to all the others, htrc is special in that
+# it does only contribute some functionality to the galaxy image, it does not
+# get its own image. If the -a option is used then all
+#
+# The other directories all have a similar layout, containing the following
+# files:
+#
+#    Dockerfile
+#    VERSION
+#    package_list.txt
+#    packages/
+#    tool_conf.groovy
+#    tools/
+#
+# The package_list.txt file determmines what packages (containing war files with
+# services) are downloaded for the modules. The downloads are tgz files that are
+# stored in the packages directory and later copied to the images.
+#
+# The tools directory has tools specific for the module where typically a tool
+# is an XML file file that defines how the tool is wrapped in Galaxy, associated
+# with a groovy script that tells you how to invoke the tool.
+#
+# The tool_conf.groovy script is used by the ToolConfEditor to generate the
+# Galazy tool menu.
+#
+# The Dockerfile has the instructions for building the Docker image. Typically,
+# the content is as follows (taken from opennlp/Dockerfile)
+#
+#    FROM lappsgrid/tomcat7:1.1.0
+#    ADD ./packages/*.tgz /var/lib/tomcat7/webapps
+#
+# These Dockerfiles are used when make-appliance creates the images after all
+# other steps have been performed. If you do not use the -d option, then this is
+# skipped for all images except the galaxy image.
+#
+# This script also readies the containers for being in a Dcoker swarm by
+# creating the docker-compose.yml YAML file.
+
+
 set -e
 
 APPLIANCE=lapps
 SERVER=http://downloads.lappsgrid.org
 
+
 parsed=false        # used in parsing options (currently -a, -b)
-make_docker=false   # true if -b is given, re-build docker images for each module (& galaxy)
-all=false           # true if -a option is given, always add all modules in current directory (ignoring cmd arguments)
+
+overwrite=false     # true if -o option is given
+                    # download packages even if you already have them
+
+make_docker=false   # true if -b option is given
+                    # re-build docker images for each module (& galaxy)
+
+all=false           # true if -a option is given
+                    # always add all modules in current directory (ignoring cmd
+                    # arguments)
+
+
+# Some debugging flags, set them to false to skip execution of commands in
+# functions with the same names as the variables
+generate_docker_configuration=true
+#generate_docker_configuration=false
+initialize_build=true
+#initialize_build=false
+configure_tools=true
+#configure_tools=false
+copy_tools=true
+#copy_tools=false
+build_image=true
+#build_image=false
+
+
 
 function parse_options {
     if [ "$1" = "-b" ] ; then
         make_docker=true
+    elif [ "$1" = "-o" ] ; then
+        overwrite=true
     elif [ "$1" = "-a" ] ; then 
         all=true
     elif [ "$1" != "-"* ] ; then 
@@ -18,20 +96,28 @@ function parse_options {
     fi
 }
 
+
 function validate_module {
-    # strip path seps and only returns a tool module name, excluding base modules (galaxy, build)
+    # strip path seps and only returns a tool module name, excluding base
+    # modules (galaxy, build)
     if [ "$1" = "build/" -o "$1" = "galaxy/" ] ; then 
-        echo ""
-    else 
-        echo `echo $1 | sed 's/\/$//g'`
+        printf ""
+    else
+        printf `echo $1 | sed 's/\/$//g'`
     fi
 }
 
+
 function prep_modules {
     for module in $@ ; do 
-        echo "$modules `validate_module $module`"
+	validated_module=`validate_module $module`
+	if [ "$validated_module" != '' ]
+	then
+            printf " `validate_module $module`"
+	fi
     done
 }
+
 
 # parse flags first 
 while [ "$parsed" = false ] ; do 
@@ -41,6 +127,7 @@ while [ "$parsed" = false ] ; do
     fi
 done
 
+
 # then preprare the list of modules to include
 if [ "$all" = true ] ; then 
     modules=`prep_modules $(ls -d */)`
@@ -48,54 +135,136 @@ else
     modules=`prep_modules "$@"`
 fi
 
-# generate docker configuration
-groovy YamlBuilder.groovy $APPLIANCE $modules > docker-compose.yml
-
-# start building galaxy with newly generated tool_conf and docker-compose config (yaml)
-cp -R galaxy build
 
 function build_appliance {
-    # given a list of moudles as arguments
-    while [ -n "$1" ] ; do
-        # for each module
-        echo "Building $1"
-        # copy base files
-        cp -R $1/tools build
-        # this will minimize (remove empty sections) when building the final tool_conf.xml
-        if [ -z "$2" ] ; then OPTS="-m" ; fi
-        # include tools in the module in the tool_conf.xml
-        java -jar ./ToolConfEditor-1.0.1.jar $OPTS -c build/tool_conf.xml -o build/tool_conf.xml $1/tool_conf.groovy
 
-        # now go into the module dir and build docker, if specified in option
+    # Build the appliance. Note that the build is initialized after dowloading
+    # packages because the galaxy packages need to be in the build.
+
+    generate_docker_configuration
+    download_packages galaxy $@
+    initialize_build
+    copy_tools $@
+    configure_tools $@
+
+    # build all non-galaxy images
+    while [ -n "$1" ] ; do
         if [ "$make_docker" = "true" ] ; then
             cd $1 
-            # first download war files (in tgz archive) from the server
-            download_tool $1
-            # then build docker image - this will require tool tgz files in the place 
-            # NOTE that htrc module does not have its own docker container, but lives ni galaxy docker container
-            # so we're skipping 'htrc' module
-            if [ "$1" != "htrc" ] ; then 
-                sudo docker build -t $APPLIANCE/$1 .
-            fi
+	    build_image $1
             cd ..
-        fi
+	fi
         shift
     done
+
+    # finally, build the galaxy image
     cd build 
-    download_tool "galaxy-htrc"
-    sudo docker build -t "$APPLIANCE/galaxy-htrc" .
+    build_image "galaxy-htrc"
 }
 
-function download_tool {
-    # given module name as $1,
-    echo "Downloading tool files for $1, this will remove all previously downdload files"
-    if [ ! -d packages ] ; then mkdir packages ; fi
-    cd packages 
-    if [ `ls *.tgz 2> /dev/null` ] ; then rm *.tgz ; fi
-    for package in `cat ../package_list.txt`; do 
-        wget $SERVER/$package.tgz
+
+function generate_docker_configuration {
+    # Create the docker-compose config file (yaml file)
+    echo; echo ">>> Generate docker configuration"
+    echo "$ groovy YamlBuilder.groovy $APPLIANCE $modules > docker-compose.yml"
+    if [ $generate_docker_configuration = true ]
+    then
+	groovy YamlBuilder.groovy $APPLIANCE $modules > docker-compose.yml
+    fi
+}
+
+
+function download_packages {
+    echo; echo '>>> downloading packages'
+    while [ -n "$1" ] ; do
+	cd $1
+	download_module_packages $1
+	cd ..
+	shift
     done
-    cd ..
+}
+
+
+function download_module_packages {
+    # download packages for module $1, check the $overwrite variable to see if
+    # already downloaded packages need to be downloaded again, packages are
+    # downloaded to $1/packages (for example, to masc/packages if masc is one of
+    # the modules).
+    if [ ! -d packages ] ; then mkdir packages ; fi
+    for package in `cat package_list.txt`; do
+	#echo $package
+	if [ $overwrite = true ] || [ ! -e packages/$package.tgz ] ;
+	then
+	    cd packages
+	    if [ -e $package.tgz ]; then rm $package.tgz; fi
+	    echo $ wget $SERVER/$package.tgz
+	    wget $SERVER/$package.tgz
+	    cd ..
+	fi
+    done
+}
+
+
+function initialize_build {
+    # Start building galaxy with fresh tool_conf and other goodies
+    echo; echo ">>> Initializing build directory"
+    echo $ cp -R galaxy build
+    if [ $initialize_build = true ] 
+    then
+	rm -rf build
+	cp -R galaxy build
+    fi
+}
+
+
+function copy_tools {
+    # Copy tools from all sub modules (that is, not including galaxy) to the new
+    # build
+    echo; echo '>>> copying tools'
+    while [ -n "$1" ] ; do
+	echo $ cp -R $1/tools build
+	if [ $copy_tools = true ]
+	then
+	    cp -R $1/tools build
+	fi
+	shift
+    done
+}
+
+
+function configure_tools {
+    # Configure tools from all sub modules. Adds module tools to the tool config
+    # file in build/tools_conf.xml
+    echo; echo '>>> configuring tools'
+    while [ -n "$1" ] ; do
+        # this will minimize (remove empty sections) when building the final
+        # tool_conf.xml
+	if [ -z "$2" ] ; then OPTS="-m" ; fi
+	editor=./ToolConfEditor-1.0.1.jar
+	tool_conf=build/tool_conf.xml
+	tool_conf_script=$1/tool_conf.groovy
+	echo $ java -jar $editor $OPTS -c $tool_conf -o $tool_conf $tool_conf_script
+	if [ $configure_tools = true ]
+	then
+	    java -jar $editor $OPTS -c $tool_conf -o $tool_conf $tool_conf_script
+	fi
+	shift
+    done
+}
+
+
+function build_image {
+    # Build the Docker image for the module. Note that htrc module does not have
+    # its own docker container, but lives in the galaxy docker container so we
+    # will not build the 'htrc' module
+    if [ "$1" != "htrc" ] ; then
+	echo; echo ">>> Buiding $1"
+        echo $ sudo docker build -t $APPLIANCE/$1 .
+	if [ $build_image = true ]
+	then
+            docker build -t $APPLIANCE/$1 .
+	fi
+    fi
 }
 
 

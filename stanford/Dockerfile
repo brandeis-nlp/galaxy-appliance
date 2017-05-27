@@ -1,7 +1,6 @@
 # lappsgrid/stanford
 #
-# This image extends the tomcat7 image and adds the Lapps services running
-# on the Vassar node.
+# This image extends the tomcat7 image and adds the Stanford services.
 
 FROM lappsgrid/tomcat7:1.1.0
 

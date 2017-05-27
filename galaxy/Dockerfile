@@ -23,7 +23,8 @@ ADD ./packages/lsd-latest.tgz /usr/bin
 RUN chmod a+x /usr/bin/lsd
 
 # this is not the best way, but for now, simple galaxy wrapper should live in the galaxy container, so does dataset
-ADD ./packages/samples.tgz /var/corpora/htrc-samples
+ADD ./packages/htrc-samples.tgz /var/corpora/htrc-samples
+ADD ./packages/htrc-samples-annotated.tgz /var/corpora/htrc-samples-annotated
 
 #USER galaxy
 ADD ./packages/brat.tgz /galaxy-central/config/plugins/visualizations

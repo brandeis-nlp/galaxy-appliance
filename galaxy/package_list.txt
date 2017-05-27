@@ -1,3 +1,4 @@
 lsd-latest
 brat
-samples
+htrc-samples
+htrc-samples-annotated
