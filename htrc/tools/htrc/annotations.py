@@ -1,24 +1,14 @@
 # !/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 from sys import argv
 import os
-
-# -*- coding: utf-8 -*-
+import shutil
 
 """
 This program is to:
 
 """
-import sys
-import shutil
-
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-__author__ = 'krim'
-__date__ = '5/19/17'
-__email__ = 'krim@brandeis.edu'
-
 
 if __name__ == '__main__':
 
