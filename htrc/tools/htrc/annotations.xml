@@ -5,7 +5,7 @@
     <description>
         locally stored NE annotation samples
     </description>
-  <command interpreter="python">annotations.py "$input"</command>
+  <command interpreter="python3">annotations.py "$input"</command>
 
   <!--
     #for $key in $list_output.keys()#

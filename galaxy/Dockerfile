@@ -17,7 +17,24 @@ RUN apt-get update && apt-get install -y bash
 ENV PYTHONUSERBASE=/galaxy_venv/
 # python lxml package depends on this 
 RUN apt-get install -y libxslt-dev
-RUN pip install --user htrc
+
+# htrc-python-sdk recommends python 3.6. However, galaxy-stable image is based 
+# on ubuntu 14.04 (Trusty), of which ubuntu apt only supports up to python 3.4.
+# Instead of adding more apt repos (ppa), we will use miniconda python 
+# Note that the full anaconda stack is too big. 
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-4.3.27.1-Linux-x86_64.sh -O /miniconda.sh
+RUN bash /miniconda.sh -b -p /opt/anaconda3 
+# galaxy needs python 2.7 so we keep the default system `python` (2.7)
+# but `python3` and `pip3` should be linked to anaconda python.
+RUN rm /usr/bin/python3 || echo 'python3 not found'
+RUN rm /usr/bin/pip3 || echo 'pip3 not found'
+RUN ln /opt/anaconda3/bin/python3.6 /usr/bin/python3
+RUN ln /opt/anaconda3/bin/pip /usr/bin/pip3
+# and finally install htrc python-sdk in anaconda python, set environment for the sdk
+RUN /opt/anaconda3/bin/pip install htrc
+
+# ADD /u/htrcbldr/.htrc /home/galaxy/.htrc
+RUN mkdir -p /media/secure_volume
 
 ADD ./packages/lsd-latest.tgz /usr/bin
 RUN chmod a+x /usr/bin/lsd

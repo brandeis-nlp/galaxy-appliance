@@ -1,28 +1,16 @@
-#!/usr/bin/env python
-from __future__ import absolute_import, division, print_function
-
-from sys import argv
-
-import os
-
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
 This program is to:
 wraps around python wrapper that wraps around HTRC data API as a Galaxy tool
 """
-import sys
+
+from sys import argv
+import os
 from htrc import volumes
 import shutil
 import re
-
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-__author__ = 'krim'
-__date__ = '3/29/17'
-__email__ = 'krim@brandeis.edu'
-
 
 def parse_pages(pages_string):
     page_ids = []

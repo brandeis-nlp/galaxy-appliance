@@ -2,7 +2,7 @@
     <description>
         wrapepr around HTRC python SDK 
     </description>
-    <command interpreter="python">wrapper.py "$input"</command>
+    <command interpreter="python3">wrapper.py "$input"</command>
 
     <inputs>
         <param name="input" type="text" area="True" size="10x25" label="Enter a Query"/>
