@@ -26,10 +26,10 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-4.3.27.1-Linux-x86_64.sh
 RUN bash /miniconda.sh -b -p /opt/anaconda3 
 # galaxy needs python 2.7 so we keep the default system `python` (2.7)
 # but `python3` and `pip3` should be linked to anaconda python.
-RUN rm /usr/bin/python3 || echo 'python3 not found'
-RUN rm /usr/bin/pip3 || echo 'pip3 not found'
-RUN ln /opt/anaconda3/bin/python3.6 /usr/bin/python3
-RUN ln /opt/anaconda3/bin/pip /usr/bin/pip3
+RUN rm /usr/local/bin/python3 || echo 'python3 not found'
+RUN rm /usr/local/bin/pip3 || echo 'pip3 not found'
+RUN ln /opt/anaconda3/bin/python3.6 /usr/local/bin/python3
+RUN ln /opt/anaconda3/bin/pip /usr/local/bin/pip3
 # and finally install htrc python-sdk in anaconda python, set environment for the sdk
 RUN /opt/anaconda3/bin/pip install htrc
 
