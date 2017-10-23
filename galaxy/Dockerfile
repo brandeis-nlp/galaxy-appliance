@@ -30,10 +30,18 @@ RUN rm /usr/local/bin/python3 || echo 'python3 not found'
 RUN rm /usr/local/bin/pip3 || echo 'pip3 not found'
 RUN ln /opt/anaconda3/bin/python3.6 /usr/local/bin/python3
 RUN ln /opt/anaconda3/bin/pip /usr/local/bin/pip3
-# and finally install htrc python-sdk in anaconda python, set environment for the sdk
+# and finally install htrc python-sdk in anaconda python
 RUN /opt/anaconda3/bin/pip install htrc
+# UNCOMMENT this line to make htrc in anaconda default
+# RUN ln /opt/anaconda3/bin/htrc /usr/local/bin/htrc 
 
-# ADD /u/htrcbldr/.htrc /home/galaxy/.htrc
+# this will be duplicate, but install htrc for system python, too
+# must use --user flag, as system python doesn't know about # /usr/lib/python2.7/site-packages due to PYTHONUSERBASE
+# this will generate the entry point script in /galaxy_venv/bin/ so for system-wide access, we symlink it to /usr/bin
+RUN pip install --user htrc
+RUN ln /galaxy_venv/bin/htrc /usr/bin/htrc 
+
+ADD /u/htrcbldr/.htrc /home/galaxy/.htrc
 RUN mkdir -p /media/secure_volume
 
 ADD ./packages/lsd-latest.tgz /usr/bin
