@@ -40,8 +40,7 @@ RUN /opt/anaconda3/bin/pip install htrc
 # this will generate the entry point script in /galaxy_venv/bin/ so for system-wide access, we symlink it to /usr/bin
 RUN pip install --user htrc
 RUN ln /galaxy_venv/bin/htrc /usr/bin/htrc 
-
-ADD /u/htrcbldr/.htrc /home/galaxy/.htrc
+ADD .htrc /home/galaxy/
 RUN mkdir -p /media/secure_volume
 
 ADD ./packages/lsd-latest.tgz /usr/bin
