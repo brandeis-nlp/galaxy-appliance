@@ -4,7 +4,7 @@
 # Script to build a LAPPS appliance.
 # Synopsis
 #
-#   $ ./make-appliance [-a] [-b] [-o]
+#   $ ./make-appliance [-a] [-b] [-o] [-e host_dir]
 #
 # Typically you would use just the -a and -b options.
 #
@@ -34,7 +34,7 @@
 # with a groovy script that tells you how to invoke the tool.
 #
 # The tool_conf.groovy script is used by the ToolConfEditor to generate the
-# Galazy tool menu.
+# Galaxy tool menu.
 #
 # The Dockerfile has the instructions for building the Docker image. Typically,
 # the content is as follows (taken from opennlp/Dockerfile)
@@ -46,7 +46,7 @@
 # other steps have been performed. If you do not use the -d option, then this is
 # skipped for all images except the galaxy image.
 #
-# This script also readies the containers for being in a Dcoker swarm by
+# This script also readies the containers for being in a Docker swarm by
 # creating the docker-compose.yml YAML file.
 
 
@@ -67,6 +67,8 @@ make_docker=false   # true if -b option is given
 all=false           # true if -a option is given
                     # always add all modules in current directory (ignoring cmd
                     # arguments)
+export_dir=         # a directory on the host machine to backup
+                    # galaxy environment
 
 
 # Some debugging flags, set them to false to skip execution of commands in
@@ -82,20 +84,43 @@ copy_tools=true
 build_image=true
 #build_image=false
 
-
-
-function parse_options {
-    if [ "$1" = "-b" ] ; then
-        make_docker=true
-    elif [ "$1" = "-o" ] ; then
-        overwrite=true
-    elif [ "$1" = "-a" ] ; then 
-        all=true
-    elif [ "$1" != "-"* ] ; then 
-        parsed=true
-    fi
-}
-
+while getopts "aboe:h" opt ; do
+	case $opt in
+        a)
+            echo "option -a"
+            all=true
+            ;;
+		b)
+			echo "option -b"
+			make_docker=true
+			;;
+        o)
+            echo "opion -o"
+            overwrite=true
+            ;;
+		e)
+			echo "option -e $OPTARG"
+			export_dir=$OPTARG
+			;;
+		h)
+			echo "./make-appliance [-a] [-b] -o] [-e <EXPORT_DIR>] name image [image...]"
+			exit 1
+			;;
+		*)
+			echo "Unhandled option: $1"
+			exit 1
+			;;	
+		\?)
+			echo "Invalid option: -$OPTARG" >&2
+			exit 1
+			;;
+		:)
+			echo "Option -$OPTARG requires an argument." >&2
+			exit 1
+			;;
+	esac
+done
+shift "$((OPTIND-1))"
 
 function validate_module {
     # strip path seps and only returns a tool module name, excluding base
@@ -120,12 +145,12 @@ function prep_modules {
 
 
 # parse flags first 
-while [ "$parsed" = false ] ; do 
-    parse_options $1
-    if [ "$parsed" = false ] ; then
-        shift
-    fi
-done
+# while [ "$parsed" = false ] ; do 
+    # parse_options $1
+    # if [ "$parsed" = false ] ; then
+        # shift
+    # fi
+# done
 
 
 # then preprare the list of modules to include
@@ -169,7 +194,11 @@ function generate_docker_configuration {
     echo "$ groovy YamlBuilder.groovy $APPLIANCE $modules > docker-compose.yml"
     if [ $generate_docker_configuration = true ]
     then
-	groovy YamlBuilder.groovy $APPLIANCE $modules > docker-compose.yml
+        if [ -n "$export_dir" ] ; then
+	    groovy YamlBuilder.groovy -e $export_dir $APPLIANCE $modules > docker-compose.yml
+        else
+	    groovy YamlBuilder.groovy $APPLIANCE $modules > docker-compose.yml
+        fi
     fi
 }
 

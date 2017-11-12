@@ -3,21 +3,23 @@
  * file needed to run all the Docker containers that make up a
  * LAPP Grid Galaxy Appliance.
  */
- 
-if (args.size() == 0) {
-	println '''
-USAGE 
-    groovy YamlBuilder.groovy <repository name> module [module ...]
+@Grab('commons-cli:commons-cli:1.2')
 
-EXAMPLE
-    groovy YamlBuilder.groovy lappsgrid masc oaqa lingpipe gate stanford
-    
-'''
+CliBuilder cli = new CliBuilder()
+cli.usage = 'groovy YamlBuilder.groovy [-e path] <repository> module [module ...]'
+cli.header = '\nGenerates the docker-compose.yml file for a Galaxy appliance.\n'
+cli.footer = '\nCopyright 2017 The Language Applications Grid.\n'
+cli.h(longOpt:'help', 'displays this help message')
+cli.e(longOpt:'export', args:1, 'define the directory to mount as the /export volume for Galaxy')
+
+def params = cli.parse(args) 
+if (args.size() == 0 || params.h) {
+	cli.usage()
 	return
 }
 
-String appliance = args[0]
-args = args[1..-1]
+String appliance = params.arguments()[0]
+args = params.arguments()[1..-1]
 // htrc tools and data set should live inside the main galaxy container
 args.removeElement("htrc")
 
@@ -47,10 +49,14 @@ println """    galaxy:
         image: $appliance/galaxy-htrc
         container_name: galaxy
         build: ./build
-        ports:
+        privileged: true"""
+        if (params.e) {
+        	println "        volumes:"
+        	println "            - ${params.e}:/export/"
+        }
+println """        ports:
             - 80:80
         depends_on:"""
-
 args.each {
 	println "            - $it"
 }

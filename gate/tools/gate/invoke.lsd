@@ -1,0 +1,10 @@
+#!/usr/bin/env lsd
+
+String service = args[0]
+String input = args[1]
+String output = args[2]
+String url = "http://gate:8080/GateServices/2.2.0/services/${service}"
+
+ServiceClient client = new ServiceClient(url)
+String json = new File(input).text
+new File(output).text = client.execute(json)

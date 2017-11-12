@@ -22,6 +22,8 @@ A **LAPPS/Galaxy Docker Appliance**, or simply an *appliance*, is a network of D
  
 1. The `make-appliance` script expects a program named `tce` (Tool Config Editor) to be available on the system `$PATH`.  A pre-built binary distribution of the Tool Conf Editor is available [here](http://www.anc.org/downloads/ToolConfEditor-latest.tgz).  Copy the `tce` script and jar file to a directory on the system `$PATH`, or copy them to a new directory and add that directory to your `$PATH`. The source code for the Tool Config Editor is available from [GitHub](https://github.com/oanc/tool-conf-editor).
 
+ The source code for the Tool Config Editor is available from [GitHub](https://github.com/oanc/tool-conf-editor).
+
 1. [Groovy](https://groovy-lang.org) (2.4.x or later) is required to run the `YamlBuilder.groovy` script that is used to generate the *docker-compose.yml* file.
 
 1. The [jsonc](http://www.anc.org/downloads/jsonc-latest.tgz) (JSON Compiler) program is required to generate the JSON task definitions for Amazon ECS (Elastic Container Service).  Installation of `jsonc` is similar to the installation process for the `tce` program; copy the `jsonc` script file and jar file on the system `$PATH`.
@@ -39,9 +41,12 @@ Here, `module` is the name of a Docker container to include in the appliance. So
 ```bash
 $> ./make-appliance -a -b
 $> ./make-appliance gate masc oaqa
+$> ./make-appliance -e /home/user/galaxy-export/ 
 ```
 
-With the `-a` option you do not need to enumerate the modules included, the script will take all subdirectories in the repository. Alternatively, you can list all modules to be included, but note that `galaxy` does not need be included since it is always assumed. The `-b` option rebuilds Docker images for each module.
+* With the `-a` option you do not need to enumerate the modules included, the script will take all subdirectories in the repository. Alternatively, you can list all modules to be included, but note that `galaxy` does not need be included since it is always assumed. 
+* The `-b` option rebuilds Docker images for each module.
+* `-e` options, with an directory argument, is for storing the galaxy runtime environment in a host storage. the directory must be a absolute path and be existing on the host. 
 
 After this you should be able to run
 
