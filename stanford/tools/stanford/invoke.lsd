@@ -6,15 +6,17 @@ String output = args[2]
 
 def map = [
 	tokenizer: 'Tokenizer',
-	tagger: 'Tagger',
-	splitter: 'SentenceSplitter',
+	tagger: 'POSTagger',
+	splitter: 'Splitter',
 	ner: 'NamedEntityRecognizer',
-	sner: 'SelectableNamedEntityRecognizer'
+    parser: 'Parser',
+    depparser: 'DependencyParser',
+	coref: 'Coreference'
 ]
 
 service = map[service] ?: service
 
-String url = "http://stanford:8080/StanfordServices/2.1.0/services/${service}" 
+String url = "http://stanford:8080/StanfordBServices/2.1.0/services/${service}" 
 ServiceClient client = new ServiceClient(url)
 String json = new File(input).text
 new File(output).text = client.execute(json)

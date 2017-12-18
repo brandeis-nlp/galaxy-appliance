@@ -1,2 +1,1 @@
-StanfordServices_2.1.0
-stanford-models
+StanfordBServices_2.1.0

@@ -1,0 +1,11 @@
+<tool id='stanford.parser_2.1.0' name='Stanford Syntactic Parser v2.1.0' version='2.1.0'>
+  <description>Stanford Syntactic Parser (B)</description>
+  <command interpreter='lsd'>invoke.lsd parser $input $output</command>
+  <inputs>
+    <param name='input' type='data' format='lif' label='input' />
+  </inputs>
+  <outputs>
+    <data name='output' format='lif' />
+  </outputs>
+  <help>Stanford Syntactic Parser (Brandeis)</help>
+</tool>

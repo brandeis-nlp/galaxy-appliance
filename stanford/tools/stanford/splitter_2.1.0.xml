@@ -1,5 +1,5 @@
-<tool id='stanford.splitter_2.0.0' name='Stanford SentenceSplitter v2.0.0' version='2.0.0'>
-  <description>Stanford Sentence Splitter</description>
+<tool id='stanford.splitter_2.1.0' name='Stanford SentenceSplitter v2.1.0' version='2.1.0'>
+  <description>Stanford Sentence Splitter (B)</description>
   <command interpreter='lsd'>invoke.lsd splitter $input $output</command>
   <inputs>
     <param name='input' type='data' format='lif' label='input' />
@@ -7,5 +7,5 @@
   <outputs>
     <data name='output' format='lif' />
   </outputs>
-  <help>Stanford Sentence Splitter</help>
+  <help>Stanford Sentence Splitter (Brandeis)</help>
 </tool>
