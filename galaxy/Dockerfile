@@ -51,7 +51,7 @@ ADD ./packages/htrc-samples.tgz /var/corpora/htrc-samples
 ADD ./packages/htrc-samples-annotated.tgz /var/corpora/htrc-samples-annotated
 
 #USER galaxy
-ADD ./packages/brat.tgz /galaxy-central/config/plugins/visualizations
+ADD ./packages/brat-new-201709.tgz /galaxy-central/config/plugins/visualizations
 
 ADD ./welcome.html /etc/galaxy/web/welcome.html
 ADD ./tool_conf.xml /galaxy-central/config/tool_conf.xml

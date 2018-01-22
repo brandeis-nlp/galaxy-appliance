@@ -1,4 +1,4 @@
 lsd-latest
-brat
+brat-new-201709
 htrc-samples
 htrc-samples-annotated
