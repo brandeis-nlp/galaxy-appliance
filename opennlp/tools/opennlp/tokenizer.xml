@@ -6,7 +6,7 @@
     <param name="input" type="data" format="lif" label="Input"/>
   </inputs>
   <outputs>
-    <data name="output" format="lif" label="Tokens"/>
+    <data name="output" format="lif" />
   </outputs>
   <help>The tokenizer accepts text documents in LIF containers.</help>
 </tool>

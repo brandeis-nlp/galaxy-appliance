@@ -1,5 +1,5 @@
-<tool id='stanford.tagger_2.0.0' name='Stanford Tagger v2.0.0' version='2.0.0'>
-  <description>Stanford Tagger</description>
+<tool id='stanford.tagger_2.1.0' name='Stanford Tagger v2.1.0' version='2.1.0'>
+  <description>Stanford Tagger (B)</description>
   <command interpreter='lsd'>invoke.lsd tagger $input $output</command>
   <inputs>
     <param name='input' type='data' format='lif' label='input' />
@@ -7,5 +7,5 @@
   <outputs>
     <data name='output' format='lif' />
   </outputs>
-  <help>Stanford Part of Speech Tagger</help>
+  <help>Stanford Part of Speech Tagger (Brandeis)</help>
 </tool>

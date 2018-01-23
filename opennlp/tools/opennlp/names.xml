@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool id="opennlp.names" name="OpenNLP Named Entity Recognizer" version="1.0.0">
+  <description>OpenNLP Name Entity Recognizer </description>
+  <command interpreter="lsd">invoke.lsd NamedEntityRecognizer $input $output</command>
+  <inputs>
+    <param name="input" type="data" format="lif" label="Input"/>
+  </inputs>
+  <outputs>
+    <data name="output" format="lif" />
+  </outputs>
+  <help>Finds named entities to the input text.</help>
+</tool>

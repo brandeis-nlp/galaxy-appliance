@@ -31,8 +31,8 @@
   </param>
   </inputs>
   <outputs>
-    <collection name="list_output" type="list" label="Annotated Samples" format="lif">
-        <discover_datasets pattern="__designation_and_ext__" directory="outputs" visible="false"/>
+    <collection name="list_output" type="list" label="Annotated $input" format="lif">
+        <discover_datasets pattern="__designation__" directory="outputs" format="lif" visible="false"/>
     </collection>
   </outputs>
   <tests>

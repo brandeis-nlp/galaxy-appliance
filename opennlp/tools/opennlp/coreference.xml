@@ -6,7 +6,7 @@
     <param name="input" type="data" format="lif" label="Input"/>
   </inputs>
   <outputs>
-    <data name="output" format="lif" label="Coreference"/>
+    <data name="output" format="lif"/>
   </outputs>
   <help>Requires tokenized text.</help>
 </tool>

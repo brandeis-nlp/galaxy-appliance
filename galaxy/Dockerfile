@@ -48,10 +48,10 @@ RUN chmod a+x /usr/bin/lsd
 
 # this is not the best way, but for now, simple galaxy wrapper should live in the galaxy container, so does dataset
 ADD ./packages/htrc-samples.tgz /var/corpora/htrc-samples
-ADD ./packages/htrc-samples-annotated.tgz /var/corpora/htrc-samples-annotated
+ADD ./packages/htrc-samples-annotated-id.tgz /var/corpora/htrc-samples-annotated
 
 #USER galaxy
-ADD ./packages/brat.tgz /galaxy-central/config/plugins/visualizations
+ADD ./packages/brat-new-201709.tgz /galaxy-central/config/plugins/visualizations
 
 ADD ./welcome.html /etc/galaxy/web/welcome.html
 ADD ./tool_conf.xml /galaxy-central/config/tool_conf.xml

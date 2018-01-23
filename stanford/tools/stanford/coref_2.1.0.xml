@@ -1,0 +1,11 @@
+<tool id='stanford.coref_2.1.0' name='Stanford Coreference v2.1.0' version='2.1.0'>
+  <description>Stanford Coreference Resolution (B)</description>
+  <command interpreter='lsd'>invoke.lsd coref $input $output</command>
+  <inputs>
+    <param name='input' type='data' format='lif' label='input' />
+  </inputs>
+  <outputs>
+    <data name='output' format='lif' />
+  </outputs>
+  <help>Stanford Coreference Resolution (Brandeis)</help>
+</tool>

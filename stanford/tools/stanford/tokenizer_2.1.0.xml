@@ -1,5 +1,5 @@
-<tool id='stanford.tokenizer_2.0.0' name='Stanford Tokenizer v2.0.0' version='2.0.0'>
-  <description>Stanford Tokenizer</description>
+<tool id='stanford.tokenizer_2.1.0' name='Stanford Tokenizer v2.1.0' version='2.1.0'>
+  <description>Stanford Tokenizer (B)</description>
   <command interpreter='lsd'>invoke.lsd tokenizer $input $output</command>
   <inputs>
     <param name='input' type='data' format='lif' label='input' />
@@ -7,5 +7,5 @@
   <outputs>
     <data name='output' format='lif' />
   </outputs>
-  <help>Stanford Tokenizer</help>
+  <help>Stanford Tokenizer (Brandeis)</help>
 </tool>
