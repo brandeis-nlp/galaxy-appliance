@@ -6,7 +6,7 @@
     <param name="input" type="data" format="lif" label="Input"/>
   </inputs>
   <outputs>
-    <data name="output" format="lif" label="Sentences"/>
+    <data name="output" format="lif" />
   </outputs>
   <help>Adds sentence boundaries to tokenized text in a LIF container.</help>
 </tool>
