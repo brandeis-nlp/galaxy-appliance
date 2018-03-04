@@ -254,7 +254,7 @@ def credentials_from_config(path):
 
     return (username, password)
 
-def download_volumes(volume_ids, output_dir, username=None, password=None):
+def download_volumes(volume_ids, output_dir, username=None, password=None, concat=False):
     # create output_dir folder, if nonexistant
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
@@ -263,8 +263,17 @@ def download_volumes(volume_ids, output_dir, username=None, password=None):
     print(volume_ids)
     for volume_id in volume_ids:
         if len(volume_id) > 1:
-            shutil.copytree(os.path.join(data_dir, volume_id),
-                            os.path.join(output_dir, volume_id))
+            if not concat:
+                shutil.copytree(os.path.join(data_dir, volume_id),
+                                os.path.join(output_dir, volume_id))
+            else:
+                with open(os.path.join(output_dir, volume_id + '.txt'), 'w') as ofile:
+                    # suppose page files in a volume always sortable
+                    for page in sorted(os.listdir(os.path.join(data_dir, volume_id))):
+                        page_filename = os.path.join(data_dir, volume_id, page)
+                        with open(page_filename) as ifile:
+                            for line in ifile:
+                                ofile.write(line)
 """
         try:
             data = get_volumes(token, volume_ids, False)
