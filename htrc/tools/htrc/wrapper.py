@@ -42,6 +42,7 @@ if __name__ == '__main__':
 
     ofile_name = 'outputs'
     temp_ofile_name = 'temp_outputs'
+    concat = len(argv) == 3 and argv[2] == '-c'
 
     ids = []
     for line_num, line in enumerate(argv[1].split('__cn__')):
@@ -50,15 +51,19 @@ if __name__ == '__main__':
         ids.append(process_input_line(line, query_by_pages))
 
     if not query_by_pages:
-        volumes.download_volumes(ids, temp_ofile_name)
+        volumes.download_volumes(ids, temp_ofile_name, concat=concat)
     else:
-        volumes.download_pages(ids, temp_ofile_name)
+        volumes.download_pages(ids, temp_ofile_name, concat=concat)
 
     os.makedirs(ofile_name)
     for volume in os.listdir(temp_ofile_name):
-        vol_path = os.path.join(temp_ofile_name, volume)
-        for page in os.listdir(vol_path):
-            page_path = os.path.join(vol_path, page)
-            shutil.move(page_path,
-                        os.path.join(ofile_name, "{}__{}".format(volume, page)))
+        if not concat:
+            vol_path = os.path.join(temp_ofile_name, volume)
+            for page in os.listdir(vol_path):
+                page_path = os.path.join(vol_path, page)
+                shutil.move(page_path,
+                            os.path.join(ofile_name, "{}__{}".format(volume, page)))
+        else:
+            shutil.move(os.path.join(temp_ofile_name, volume), 
+                    os.path.join(ofile_name, volume))
     shutil.rmtree(temp_ofile_name)
