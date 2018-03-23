@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y bash
 # DON'T forget to install any package with --user flag
 ENV PYTHONUSERBASE=/galaxy_venv/
 # python lxml package depends on this 
-RUN apt-get install -y libxslt-dev
+RUN apt-get install -y libxslt-dev libfreetype6-dev libpng12-dev
 
 # htrc-python-sdk recommends python 3.6. However, galaxy-stable image is based 
 # on ubuntu 14.04 (Trusty), of which ubuntu apt only supports up to python 3.4.
@@ -31,6 +31,9 @@ RUN rm /usr/local/bin/pip3 || echo 'pip3 not found'
 RUN ln /opt/anaconda3/bin/python3.6 /usr/local/bin/python3
 RUN ln /opt/anaconda3/bin/pip /usr/local/bin/pip3
 # and finally install htrc python-sdk in anaconda python
+RUN /opt/anaconda3/bin/pip install wget
+RUN /opt/anaconda3/bin/pip install numpy
+RUN /opt/anaconda3/bin/pip install cython
 RUN /opt/anaconda3/bin/pip install htrc
 # UNCOMMENT this line to make htrc in anaconda default
 # RUN ln /opt/anaconda3/bin/htrc /usr/local/bin/htrc 
@@ -38,6 +41,10 @@ RUN /opt/anaconda3/bin/pip install htrc
 # this will be duplicate, but install htrc for system python, too
 # must use --user flag, as system python doesn't know about # /usr/lib/python2.7/site-packages due to PYTHONUSERBASE
 # this will generate the entry point script in /galaxy_venv/bin/ so for system-wide access, we symlink it to /usr/bin
+RUN pip install --user tornado==4.5.3
+RUN pip install --user ipython==4.0.0
+RUN pip install --user wget
+RUN pip install --user cython
 RUN pip install --user htrc
 RUN ln /galaxy_venv/bin/htrc /usr/bin/htrc 
 ADD .htrc /home/galaxy/
