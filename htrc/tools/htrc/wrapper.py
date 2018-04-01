@@ -23,17 +23,19 @@ def parse_pages(pages_string):
 
     return ",".join(page_ids)
 
+def is_query_mixed(query):
+    return "#" in query
 
-def process_input_line(line, volume_id_only):
-    if volume_id_only:
-        if "/" not in line:
+def process_input_line(line, expecting_mixed_form_query):
+    if expecting_mixed_form_query:
+        if not is_query_mixed(line):
             raise IOError("INPUT error: " +
                           "Cannot retrieve data with a mixed form of query.")
         vol_id, pages = line.split("/")
         page_ids = parse_pages(pages)
         return "{}[{}]".format(vol_id, page_ids)
     else:
-        if "/" in line:
+        if is_query_mixed(line):
             raise IOError("INPUT error: " +
                           "Cannot retrieve data with a mixed form of query.")
         return line
@@ -46,11 +48,12 @@ if __name__ == '__main__':
 
     ids = []
     for line_num, line in enumerate(argv[1].split('__cn__')):
+        line = line.replace(':', '+').replace('/', '=')
         if line_num == 0:
-            query_by_pages = "/" in line
-        ids.append(process_input_line(line, query_by_pages))
+            mixed = is_query_mixed(line)
+        ids.append(process_input_line(line, mixed))
 
-    if not query_by_pages:
+    if not mixed:
         volumes.download_volumes(ids, temp_ofile_name, concat=concat)
     else:
         volumes.download_pages(ids, temp_ofile_name, concat=concat)
