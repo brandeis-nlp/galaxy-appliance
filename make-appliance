@@ -184,7 +184,9 @@ function build_appliance {
 
     # finally, build the galaxy image
     cd build 
-    build_image "galaxy-htrc"
+    if [ "$make_docker" = "true" ] ; then
+        build_image "galaxy-htrc"
+    fi
 }
 
 
