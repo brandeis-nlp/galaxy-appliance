@@ -1,6 +1,6 @@
-<tool id='stanford.ner_2.1.0' name='Stanford NamedEntityRecognizer v2.1.0' version='2.1.0'>
+<tool id='stanford.ner_3.0.0' name='Stanford NamedEntityRecognizer' version='3.0.0'>
   <description>Stanford Named Entity Recognizer (B)</description>
-  <command interpreter='lsd'>invoke.lsd ner $input $output</command>
+  <command interpreter='lsd'>invoke.lsd relextr $input $output</command>
   <inputs>
     <param name='input' type='data' format='lif' label='input' />
   </inputs>

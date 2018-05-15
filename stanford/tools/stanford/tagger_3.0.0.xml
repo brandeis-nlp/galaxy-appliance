@@ -1,4 +1,4 @@
-<tool id='stanford.tagger_2.1.0' name='Stanford Tagger v2.1.0' version='2.1.0'>
+<tool id='stanford.tagger_3.0.0' name='Stanford Tagger' version='3.0.0'>
   <description>Stanford Tagger (B)</description>
   <command interpreter='lsd'>invoke.lsd tagger $input $output</command>
   <inputs>

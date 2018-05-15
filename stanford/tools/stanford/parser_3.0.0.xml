@@ -1,4 +1,4 @@
-<tool id='stanford.parser_2.1.0' name='Stanford Syntactic Parser v2.1.0' version='2.1.0'>
+<tool id='stanford.parser_3.0.0' name='Stanford Syntactic Parser' version='3.0.0'>
   <description>Stanford Syntactic Parser (B)</description>
   <command interpreter='lsd'>invoke.lsd parser $input $output</command>
   <inputs>

@@ -1,4 +1,4 @@
-<tool id='stanford.tokenizer_2.1.0' name='Stanford Tokenizer v2.1.0' version='2.1.0'>
+<tool id='stanford.tokenizer_3.0.0' name='Stanford Tokenizer' version='3.0.0'>
   <description>Stanford Tokenizer (B)</description>
   <command interpreter='lsd'>invoke.lsd tokenizer $input $output</command>
   <inputs>
