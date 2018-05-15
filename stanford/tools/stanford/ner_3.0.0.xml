@@ -1,0 +1,11 @@
+<tool id='stanford.ner_3.0.0' name='Stanford NamedEntityRecognizer' version='3.0.0'>
+  <description>Stanford Named Entity Recognizer (B)</description>
+  <command interpreter='lsd'>invoke.lsd ner $input $output</command>
+  <inputs>
+    <param name='input' type='data' format='lif' label='input' />
+  </inputs>
+  <outputs>
+    <data name='output' format='lif' />
+  </outputs>
+  <help>Stanford Named Entity Recognizer (Brandeis)</help>
+</tool>

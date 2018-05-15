@@ -21,6 +21,8 @@
 	</section>
 	<section id="chunkers" name="Chunkers">
 	</section>
+	<section id="rel_extr" name="Relation Extractor">
+	</section>
 	<section id="evaluation" name="Evaluation">
 		<tool file="common/pretty_print.xml"/>
 		<tool file="common/word_count.xml"/>

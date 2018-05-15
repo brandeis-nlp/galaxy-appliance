@@ -1,4 +1,4 @@
-<tool id='stanford.coref_2.1.0' name='Stanford Coreference v2.1.0' version='2.1.0'>
+<tool id='stanford.coref_3.0.0' name='Stanford Coreference' version='3.0.0'>
   <description>Stanford Coreference Resolution (B)</description>
   <command interpreter='lsd'>invoke.lsd coref $input $output</command>
   <inputs>

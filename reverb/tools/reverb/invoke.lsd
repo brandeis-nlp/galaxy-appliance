@@ -1,0 +1,9 @@
+#!/usr/bin/env lsd
+
+String input = args[0]
+String output = args[1]
+
+String url = "http://reverb:8080/reverb-web-service/1.1.0-SNAPSHOT/services/ReverbRelationExtractor" 
+ServiceClient client = new ServiceClient(url)
+String json = new File(input).text
+new File(output).text = client.execute(json)
