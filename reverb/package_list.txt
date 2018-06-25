@@ -1,1 +1,1 @@
-reverb-web-service#1.1.0-SNAPSHOT
+reverb-web-service_1.1.0-SNAPSHOT
