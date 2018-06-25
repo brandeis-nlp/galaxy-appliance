@@ -1,0 +1,67 @@
+import static org.lappsgrid.discriminator.Discriminators.Uri
+
+String serviceName = "relation-filter"
+String version = "1.0.0"
+
+File input = new File(args[0])
+File output = new File(args[1])
+String condition = Uri.NE // todo: make this more generic
+boolean prettyPrint = args[2] as Boolean
+
+
+Data data = Serializer.parse(input.text, Data)
+Container container = new Container(data.payload)
+List<View> conditionViews = container.findViewsThatContain(condition)
+List<View> relationsViews = container.findViewsThatContain(Uri.GENERIC_RELATION)
+View conditionView = conditionViews.size() > 0 ? conditionViews[-1] : null
+View relationsView = relationsViews.size() > 0 ? relationsViews[-1] : null
+if (conditionView == null || relationsView == null) {
+
+    data = new Error("Unable to find views with required annotations:" + (conditionView == null? " NamedEntity" : "") + (relationsView == null? " GenericRelation" : ""))
+} else {
+    View filtered = container.newView()
+    filtered.setId("v0" + (container.getViews().size()+1))
+    filtered.addContains(Uri.MARKABLE, String.format("%s:%s", serviceName, version), "marakbles:filtered");
+    filtered.addContains(Uri.GENERIC_RELATION, String.format("%s:%s", serviceName, version), "relations:filtered");
+
+    List<Annotation> relations = relationsView.getAnnotations().findAll({ it -> it.getAtType().equals(Uri.GENERIC_RELATION) })
+    List<Annotation> markables = relationsView.getAnnotations().findAll({ it -> it.atType == Uri.MARKABLE })
+
+    for (Annotation rel : relations) {
+        boolean interested = false
+        String argumentsString = rel.getFeature("arguments")
+        for (String argId : argumentsString[1..-1].split(", ")) {
+            for (Annotation markable : markables) {
+                if (markable.id.equals(argId)) {
+                    for (Annotation conditioned : conditionView.getAnnotations()) {
+                        if (conditioned.start == markable.start && conditioned.end == markable.end) {
+                            interested = true
+                            break
+                        }
+                    }
+                }
+                if (interested) {
+                    break
+                }
+            }
+        }
+        if (interested) {
+            filtered.add(rel)
+            for (String argId : rel.getFeature("arguments").replace("[", "").replace("]", "").split(", ")) {
+                for (Annotation markable : markables) {
+                    if (markable.id == argId) {
+                        filtered.add(markable)
+                    }
+                }
+            }
+        }
+    }
+    data = new DataContainer(container)
+}
+if (prettyPrint) {
+    output.text = data.asPrettyJson()
+}
+else {
+    output.text = data.asJson()
+}
+
