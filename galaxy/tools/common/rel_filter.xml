@@ -1,0 +1,14 @@
+<tool id='lapps.tools.filter' name='Filter Annotations w/ Expr' version='1.0.0'>
+  <description>Select relations using a list of named entities.</description>
+  <command interpreter='lsd'>filter.lsd $input $output $pretty</command>
+  <inputs>
+    <param name='input' type='data' format='json,lif' label='Input' />
+    <param name="pretty" type="boolean" label="Pretty print result"/>
+  </inputs>
+  <outputs>
+    <data name='output' format='lif'/>
+  </outputs>
+  <help>
+Select generic relations that are only related with named entities. NOTE: input file has to have a view with NE annotations and a view with GenericRelation and Marakble annotations
+  </help>
+</tool>

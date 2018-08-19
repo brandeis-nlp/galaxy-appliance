@@ -9,3 +9,4 @@ htrc_sample*/
 *.pyc
 .DS_Store
 **/packages
+.tags
