@@ -297,12 +297,17 @@ function build_image {
     # Build the Docker image for the module. Note that htrc module does not have
     # its own docker container, but lives in the galaxy docker container so we
     # will not build the 'htrc' module
+    image_tag=$APPLIANCE/$1
     if [ "$1" != "htrc" ] ; then
-	echo; echo ">>> Buiding $1"
-        echo "$ sudo docker build $FORCE_BUILD -t $APPLIANCE/$1" .
 	if [ $build_image = true ]
 	then
-            docker build $FORCE_BUILD -t $APPLIANCE/$1 .
+        if [ -n $FORCE_BUILD ] ; then 
+            [ -n "`docker images -q $image_tag`" ] && docker rmi $image_tag
+        fi
+	    echo; echo ">>> Buiding $1"
+        set -x
+        docker build $FORCE_BUILD -t $image_tag . 
+        set +x
 	fi
     fi
 }

@@ -5,11 +5,6 @@ from sys import argv
 import os
 import shutil
 
-"""
-This program is to:
-
-"""
-
 if __name__ == '__main__':
 
     ofile_name = 'outputs'
