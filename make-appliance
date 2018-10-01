@@ -84,26 +84,30 @@ copy_tools=true
 build_image=true
 #build_image=false
 
-while getopts "aboe:h" opt ; do
+while getopts "abfoe:h" opt ; do
 	case $opt in
         a)
-            echo "option -a"
+            echo "option -a: include all service modules"
             all=true
             ;;
 		b)
-			echo "option -b"
+			echo "option -b: build all docker images "
 			make_docker=true
 			;;
+        f) 
+            echo "option -f: (use with '-b') build all docker images from scratch ('--no-cache'"
+            FORCE_BUILD="--no-cache"
+            ;;
         o)
-            echo "opion -o"
+            echo "opion -o: force download service packages (.war)"
             overwrite=true
             ;;
 		e)
-			echo "option -e $OPTARG"
+			echo "option -e $OPTARG: use $OPTARG as 'export' directory "
 			export_dir=$OPTARG
 			;;
 		h)
-			echo "./make-appliance [-a] [-b] -o] [-e <EXPORT_DIR>] name image [image...]"
+			echo "./make-appliance [-a] [-b [-f] ] -o] [-e <EXPORT_DIR>] name image [image...]"
 			exit 1
 			;;
 		*)
@@ -290,10 +294,10 @@ function build_image {
     # will not build the 'htrc' module
     if [ "$1" != "htrc" ] ; then
 	echo; echo ">>> Buiding $1"
-        echo $ sudo docker build -t $APPLIANCE/$1 .
+        echo "$ sudo docker build $FORCE_BUILD -t $APPLIANCE/$1" .
 	if [ $build_image = true ]
 	then
-            docker build -t $APPLIANCE/$1 .
+            docker build $FORCE_BUILD -t $APPLIANCE/$1 .
 	fi
     fi
 }
